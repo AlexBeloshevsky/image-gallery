@@ -1,4 +1,4 @@
-import {RESET, SEARCH} from '../types/types';
+import {RESET, SEARCH, UPDATE_RESULTS} from '../types/types';
 import {initialState} from '../initialState';
 
 export const imageReducer = (state = initialState, action) => {
@@ -9,6 +9,11 @@ export const imageReducer = (state = initialState, action) => {
             return {
                 ...state,
                 query: action.payload
+            }
+        case UPDATE_RESULTS:
+            return {
+                ...state,
+                results: action.payload
             }
         default:
             return state;

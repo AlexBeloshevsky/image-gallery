@@ -1,13 +1,13 @@
-import React, { useReducer, useCallback } from "react";
-import { RESET, SEARCH } from "./types/types";
+import React, { useReducer, useCallback, useEffect } from "react";
+import { RESET, SEARCH, UPDATE_RESULTS } from "./types/types";
 import { imageReducer } from "./reducers/reducer";
 import { initialState } from "./initialState";
+import { key } from "../constants/apiKey";
 
 const ImageGalleryContext = React.createContext();
 
 function ImageGalleryContextProvider(props) {
   const [state, dispatch] = useReducer(imageReducer, initialState);
-  console.log(state)
 
   const resetState = useCallback(() => {
     dispatch({
@@ -16,19 +16,49 @@ function ImageGalleryContextProvider(props) {
   }, [dispatch]);
 
   const updateSearchQuery = useCallback(
-    ( query ) => {
+    (query) => {
       dispatch({
         type: SEARCH,
-        payload: {
-          query
-        },
+        payload: query,
       });
     },
     [dispatch]
   );
 
+  const updateResults = useCallback(
+    (results) => {
+      dispatch({
+        type: UPDATE_RESULTS,
+        payload: results,
+      });
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    // POST request using fetch inside useEffect React hook
+    const requestOptions = {
+      headers: { Authorization: key },
+    };
+    if (state.query !== "") {
+      fetch(
+        `https://api.pexels.com/v1/search?query=${state.query}`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          updateResults(response);
+        });
+    } else {
+      updateResults([]);
+    }
+  }, [state.query, updateResults]);
+  console.log(state);
+
   return (
-    <ImageGalleryContext.Provider value={{ state, resetState, updateSearchQuery }}>
+    <ImageGalleryContext.Provider
+      value={{ state, resetState, updateSearchQuery }}
+    >
       {props.children}
     </ImageGalleryContext.Provider>
   );
