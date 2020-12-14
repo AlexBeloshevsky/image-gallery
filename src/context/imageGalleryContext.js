@@ -42,7 +42,7 @@ function ImageGalleryContextProvider(props) {
     };
     if (state.query !== "") {
       fetch(
-        `https://api.pexels.com/v1/search?query=${state.query}`,
+        `https://api.pexels.com/v1/search?per_page=80&query=${state.query}`,
         requestOptions
       )
         .then((response) => response.json())

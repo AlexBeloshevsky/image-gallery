@@ -13,7 +13,8 @@ export const Card = styled.div`
 export const Group = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: 2%;
+  padding: 2% 2% 2% 0;
+  padding-bottom: 2.5rem;
 `;
 
 export const Image = styled.img`
