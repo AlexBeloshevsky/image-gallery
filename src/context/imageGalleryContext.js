@@ -53,7 +53,6 @@ function ImageGalleryContextProvider(props) {
       updateResults([]);
     }
   }, [state.query, updateResults]);
-  console.log(state);
 
   return (
     <ImageGalleryContext.Provider
