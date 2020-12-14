@@ -15,6 +15,6 @@ ImageCard.Group = ({children, ...restProps}) => {
 
 ImageCard.Image = ({...restProps}) => {
     return (
-        <Image {...restProps}/>
+        <Image {...restProps} loading="lazy"/>
     )
 }
