@@ -1,5 +1,5 @@
 import React, { useReducer, useCallback, useEffect } from "react";
-import { RESET, SEARCH, UPDATE_RESULTS } from "./types/types";
+import { RESET, SEARCH, UPDATE_RESULTS, DELETE_IMAGE } from "./types/types";
 import { imageReducer } from "./reducers/reducer";
 import { initialState } from "./initialState";
 import { key } from "../constants/apiKey";
@@ -54,9 +54,19 @@ function ImageGalleryContextProvider(props) {
     }
   }, [state.query, updateResults]);
 
+  const deleteImage = useCallback(
+    (imageID) => {
+      dispatch({
+        type: DELETE_IMAGE,
+        payload: imageID,
+      });
+    },
+    [dispatch]
+  );  
+
   return (
     <ImageGalleryContext.Provider
-      value={{ state, resetState, updateSearchQuery }}
+      value={{ state, resetState, updateSearchQuery, deleteImage }}
     >
       {props.children}
     </ImageGalleryContext.Provider>

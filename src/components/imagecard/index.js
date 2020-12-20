@@ -1,9 +1,19 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { ImageGalleryContext } from "../../context/imageGalleryContext";
 import {Card, Group, Image} from './styles/imagecard';
 
 export default function ImageCard ({children, ...restProps}) {
+
+    const {deleteImage} = useContext(ImageGalleryContext)
+
+    const {id} = restProps;
+
+    const handleDelete = ()=>{
+        deleteImage(id)
+    }
+
     return (
-    <Card {...restProps}>{children}</Card>
+    <Card {...restProps} onClick={handleDelete}>{children}</Card>
     )
 }
 

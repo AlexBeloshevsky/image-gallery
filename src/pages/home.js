@@ -5,8 +5,7 @@ import { ImageGalleryContext } from "../context/imageGalleryContext";
 
 export default function Home() {
   const { state } = useContext(ImageGalleryContext);
-  console.log(state.results.photos);
-  const photos = state.results.photos || null;
+  const photos = state.photos || null;
 
   return (
     <div
@@ -20,7 +19,7 @@ export default function Home() {
         <ImageCard.Group>
           {photos.map((photo) => {
             return (
-              <ImageCard key={photo.id}>
+              <ImageCard key={photo.id} id={photo.id}>
                 <ImageCard.Image src={photo.src.small} />
               </ImageCard>
             );

@@ -1,4 +1,4 @@
-import {RESET, SEARCH, UPDATE_RESULTS} from '../types/types';
+import {RESET, SEARCH, UPDATE_RESULTS, DELETE_IMAGE} from '../types/types';
 import {initialState} from '../initialState';
 
 export const imageReducer = (state = initialState, action) => {
@@ -13,7 +13,18 @@ export const imageReducer = (state = initialState, action) => {
         case UPDATE_RESULTS:
             return {
                 ...state,
-                results: action.payload
+                results: action.payload,
+                photos: action.payload.photos
+            }
+        case DELETE_IMAGE:
+            const deleteId = action.payload;
+            const array = state.photos.filter((item) => {
+                return item.id !== deleteId
+            });
+        
+            return {
+                ...state,
+                photos: array
             }
         default:
             return state;
