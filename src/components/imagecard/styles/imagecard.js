@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const Card = styled.div`
-  height: 14vh;
+  height: 300px;
+  width: 200px;
   flex-grow: 1;
   padding: 2%;
 
   &:last-child {
-    flex-grow: 10;
+    flex-grow: 3;
   }
 `;
 
@@ -18,13 +19,12 @@ export const Group = styled.div`
 `;
 
 export const Image = styled.img`
-  max-height: 100%;
-  min-width: 100%;
   object-fit: cover;
+  width: 230px;
+  height: 230px;
   vertical-align: bottom;
   border-radius: 4px;
+  transform: rotate(${props => props.quarterRotations * 90 + 'deg' || 0 + 'deg'});
 `;
 
-export const Button = styled.button`
-
-`;
+export const Button = styled.button``;

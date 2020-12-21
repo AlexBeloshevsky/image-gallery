@@ -1,38 +1,50 @@
-import React, {useContext} from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useContext, useState, createContext } from "react";
 import { ImageGalleryContext } from "../../context/imageGalleryContext";
-import {Card, Group, Image, Button} from './styles/imagecard';
+import { Card, Group, Image, Button } from "./styles/imagecard";
 
-export default function ImageCard ({children, ...restProps}) {
+const ImageContext = createContext();
 
-    return (
-    <Card {...restProps} >{children}</Card>
-    )
+export default function ImageCard({ children, ...restProps }) {
+  const [quarterRotations, setQuarterRotations] = useState(0);
+
+  return (
+    <ImageContext.Provider value={{quarterRotations, setQuarterRotations}}>
+      <Card {...restProps}>{children}</Card>
+    </ImageContext.Provider>
+  );
 }
 
-ImageCard.Group = ({children, ...restProps}) => {
-    return (
-    <Group {...restProps}>{children}</Group>
-    )
-}
+ImageCard.Group = ({ children, ...restProps }) => {
+  return <Group {...restProps}>{children}</Group>;
+};
 
-ImageCard.Image = ({...restProps}) => {
-    return (
-        <Image {...restProps} loading="lazy"/>
-    )
-}
+ImageCard.Image = ({ ...restProps }) => {
+    const {quarterRotations, setQuarterRotations } = useContext(ImageContext);
+    console.log(quarterRotations);
+  return <Image {...restProps} loading="lazy" quarterRotations={quarterRotations}/>;
+};
 
-ImageCard.DeleteButton = ({...restProps}) => {
+ImageCard.DeleteButton = ({ ...restProps }) => {
+  
+  const { deleteImage } = useContext(ImageGalleryContext);
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {deleteImage} = useContext(ImageGalleryContext)
+  const { id } = restProps;
 
-    const {id} = restProps;
+  const handleDelete = () => {
+    deleteImage(id);
+  };
 
-    const handleDelete = ()=>{
-        deleteImage(id)
-    }
+  return <Button onClick={handleDelete}>Delete</Button>;
+};
 
-    return (
-        <Button onClick={handleDelete}>Delete</Button>
-    )
-}
+ImageCard.RotateButton = ({ ...restProps }) => {
+  
+    const {quarterRotations, setQuarterRotations } = useContext(ImageContext);
+  
+    const handleRotate = () => {
+      setQuarterRotations((prevState)=> prevState + 1)
+    };
+  
+    return <Button onClick={handleRotate}>Rotate</Button>;
+  };

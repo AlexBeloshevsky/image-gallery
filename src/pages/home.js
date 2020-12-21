@@ -22,6 +22,7 @@ export default function Home() {
               <ImageCard key={photo.id}>
                 <ImageCard.Image src={photo.src.small} />
                 <ImageCard.DeleteButton id={photo.id}/>
+                <ImageCard.RotateButton />
               </ImageCard>
             );
           })}
