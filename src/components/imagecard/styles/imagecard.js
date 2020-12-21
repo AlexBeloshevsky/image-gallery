@@ -24,3 +24,7 @@ export const Image = styled.img`
   vertical-align: bottom;
   border-radius: 4px;
 `;
+
+export const Button = styled.button`
+
+`;

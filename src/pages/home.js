@@ -19,8 +19,9 @@ export default function Home() {
         <ImageCard.Group>
           {photos.map((photo) => {
             return (
-              <ImageCard key={photo.id} id={photo.id}>
+              <ImageCard key={photo.id}>
                 <ImageCard.Image src={photo.src.small} />
+                <ImageCard.DeleteButton id={photo.id}/>
               </ImageCard>
             );
           })}
