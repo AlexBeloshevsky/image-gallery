@@ -1,15 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useContext, useState, createContext } from "react";
 import { ImageGalleryContext } from "../../context/imageGalleryContext";
-import { Card, Group, Image, Button } from "./styles/imagecard";
+import { Card, Group, Image, Button, LargeImage } from "./styles/imagecard";
 
 const ImageContext = createContext();
 
 export default function ImageCard({ children, ...restProps }) {
   const [quarterRotations, setQuarterRotations] = useState(0);
+  const [showLargeImage, setShowLargeImage] = useState(false);
 
   return (
-    <ImageContext.Provider value={{quarterRotations, setQuarterRotations}}>
+    <ImageContext.Provider
+      value={{
+        quarterRotations,
+        setQuarterRotations,
+        showLargeImage,
+        setShowLargeImage,
+      }}
+    >
       <Card {...restProps}>{children}</Card>
     </ImageContext.Provider>
   );
@@ -20,13 +28,35 @@ ImageCard.Group = ({ children, ...restProps }) => {
 };
 
 ImageCard.Image = ({ ...restProps }) => {
-    const {quarterRotations, setQuarterRotations } = useContext(ImageContext);
-    console.log(quarterRotations);
-  return <Image {...restProps} loading="lazy" quarterRotations={quarterRotations}/>;
+  const {
+    quarterRotations,
+    setQuarterRotations,
+    showLargeImage,
+    setShowLargeImage,
+  } = useContext(ImageContext);
+
+  const handleClick = () => {
+    setShowLargeImage(!showLargeImage);
+  };
+
+  return showLargeImage ? (
+    <LargeImage
+      {...restProps}
+      loading="lazy"
+      quarterRotations={quarterRotations}
+      onClick={handleClick}
+    />
+  ) : (
+    <Image
+      {...restProps}
+      loading="lazy"
+      quarterRotations={quarterRotations}
+      onClick={handleClick}
+    />
+  );
 };
 
 ImageCard.DeleteButton = ({ ...restProps }) => {
-  
   const { deleteImage } = useContext(ImageGalleryContext);
 
   const { id } = restProps;
@@ -39,12 +69,11 @@ ImageCard.DeleteButton = ({ ...restProps }) => {
 };
 
 ImageCard.RotateButton = ({ ...restProps }) => {
-  
-    const {quarterRotations, setQuarterRotations } = useContext(ImageContext);
-  
-    const handleRotate = () => {
-      setQuarterRotations((prevState)=> prevState + 1)
-    };
-  
-    return <Button onClick={handleRotate}>Rotate</Button>;
+  const { quarterRotations, setQuarterRotations } = useContext(ImageContext);
+
+  const handleRotate = () => {
+    setQuarterRotations((prevState) => prevState + 1);
   };
+
+  return <Button onClick={handleRotate}>Rotate</Button>;
+};

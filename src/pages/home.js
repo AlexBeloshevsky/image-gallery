@@ -20,9 +20,11 @@ export default function Home() {
           {photos.map((photo) => {
             return (
               <ImageCard key={photo.id}>
-                <ImageCard.Image src={photo.src.small} />
+                <ImageCard.Image src={photo.src.medium} />
+                <div>
                 <ImageCard.DeleteButton id={photo.id}/>
                 <ImageCard.RotateButton />
+                </div>
               </ImageCard>
             );
           })}

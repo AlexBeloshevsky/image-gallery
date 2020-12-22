@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Card = styled.div`
   height: 300px;
-  width: 200px;
+  width: 300px;
   flex-grow: 1;
   padding: 2%;
 
@@ -25,6 +25,17 @@ export const Image = styled.img`
   vertical-align: bottom;
   border-radius: 4px;
   transform: rotate(${props => props.quarterRotations * 90 + 'deg' || 0 + 'deg'});
+`;
+
+export const LargeImage = styled.img`
+object-fit: cover;
+width: 300px;
+height: 300px;
+vertical-align: bottom;
+border-radius: 4px;
+transform: rotate(${props => props.quarterRotations * 90 + 'deg' || 0 + 'deg'});
+position: relative;
+z-index: 1;
 `;
 
 export const Button = styled.button``;
