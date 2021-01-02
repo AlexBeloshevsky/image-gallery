@@ -1,4 +1,6 @@
 export const initialState = {
     query: '',
-    results: []
+    results: [],
+    photos: [],
+    page: 2
 }

@@ -1,4 +1,4 @@
-import {RESET, SEARCH, UPDATE_RESULTS, DELETE_IMAGE} from '../types/types';
+import {RESET, SEARCH, UPDATE_RESULTS, DELETE_IMAGE, ADD_MORE_RESULTS} from '../types/types';
 import {initialState} from '../initialState';
 
 export const imageReducer = (state = initialState, action) => {
@@ -14,7 +14,14 @@ export const imageReducer = (state = initialState, action) => {
             return {
                 ...state,
                 results: action.payload,
-                photos: action.payload.photos
+                photos: action.payload.photos,
+            }
+        case ADD_MORE_RESULTS:     
+            return {
+                ...state,
+                results: {...state.results, ...action.payload},
+                photos: [...state.photos, ...action.payload.photos],
+                page: state.page + 1
             }
         case DELETE_IMAGE:
             const deleteId = action.payload;

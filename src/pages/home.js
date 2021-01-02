@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import SearchContainer from "../containers/search";
 import { ImageCard, Footer } from "../components/index";
 import { ImageGalleryContext } from "../context/imageGalleryContext";
@@ -12,7 +13,7 @@ export default function Home() {
     updatedOrder: [],
   };
 
-  const { state } = useContext(ImageGalleryContext);
+  const { state, addMoreResults } = useContext(ImageGalleryContext);
   const photos = state.photos || null;
   const [list, setList] = useState(photos);
   const [dragAndDrop, setDragAndDrop] = useState(initialDnDState);
@@ -77,6 +78,12 @@ export default function Home() {
     });
   };
 
+
+  const fetchMoreData = () => {
+    addMoreResults(state.query)
+    // alert(state.query)
+  };
+
   return (
     <div
       style={{
@@ -85,28 +92,35 @@ export default function Home() {
       }}
     >
       <SearchContainer />
-      {list && (
-        <ImageCard.Group>
-          {list.map((photo, index) => {
-            return (
-              <ImageCard
-                key={index}
-                data-position={index}
-                draggable
-                onDragStart={onDragStart}
-                onDragOver={onDragOver}
-                onDrop={onDrop}
-                onDragLeave={onDragLeave}
-              >
-                <ImageCard.Image src={photo.src.medium} />
-                <div>
-                  <ImageCard.DeleteButton id={photo.id} />
-                  <ImageCard.RotateButton />
-                </div>
-              </ImageCard>
-            );
-          })}
-        </ImageCard.Group>
+      {list && list.length !== 0 && (
+        <InfiniteScroll
+          dataLength={list.length}
+          next={fetchMoreData}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        >
+          <ImageCard.Group>
+            {list.map((photo, index) => {
+              return (
+                <ImageCard
+                  key={index}
+                  data-position={index}
+                  draggable
+                  onDragStart={onDragStart}
+                  onDragOver={onDragOver}
+                  onDrop={onDrop}
+                  onDragLeave={onDragLeave}
+                >
+                  <ImageCard.Image src={photo.src.medium} />
+                  <div>
+                    <ImageCard.DeleteButton id={photo.id} />
+                    <ImageCard.RotateButton />
+                  </div>
+                </ImageCard>
+              );
+            })}
+          </ImageCard.Group>
+        </InfiniteScroll>
       )}
       <Footer>
         <Footer.Link href="https://www.pexels.com">
