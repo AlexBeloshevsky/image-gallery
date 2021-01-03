@@ -1,10 +1,13 @@
-import {Home} from './pages'
+import { ImageGalleryContextProvider } from "./context/imageGalleryContext";
+import { Home } from "./pages";
 
 function App() {
   return (
-    <div className="App">
-      <Home/>
-    </div>
+    <ImageGalleryContextProvider>
+      <div className="App">
+        <Home />
+      </div>
+    </ImageGalleryContextProvider>
   );
 }
 
